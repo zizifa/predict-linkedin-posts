@@ -47,7 +47,7 @@ y = df['reaction']
 
 
 scaler =MinMaxScaler()
-y_scaled = scaler.fit_transform(y.value.reshape[-1 , 1])
+y_scaled = scaler.fit_transform(y.values.reshape[-1 , 1])
 
 x_train , x_test , y_train , y_test =train_test_split(x_vectorized ,y_scaled ,test_size =0.2)
 
@@ -80,8 +80,8 @@ cleantokennewpost=[t for t in token if tk.isalnum()]
 cleannewpost = " ".join(cleantokennewpost)
 print(cleannewpost)
     
-xxx=model.predict(vector.transform(cleannewpost))
-scaled_predict=scaler.inverse_transform(xxx.reshape([-1,1]))
+xxx=model.predict(vector.transform([cleannewpost]).toarray())
+scaled_predict=scaler.inverse_transform(xxx.reshape(-1,1))
 scaled_predict = int(scaled_predict[0][0])
 print(scaled_predict)
 
