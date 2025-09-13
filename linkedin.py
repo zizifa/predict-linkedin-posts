@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 import json
 from sklearn.preprocessing import MinMaxScaler
 import sys
-
+""""
 data=[]
 with open('',encoding='utf-8') as f:
     post = json.load(f)
@@ -31,7 +31,7 @@ for p in post :
     
     data.append({'post': cleanpost , 'reaction' : p['reactions'], 'comments' : p['comments']})
     
-    
+    """
 
 #df =pd.DataFrame(data)
 #df.to_csv('linkedin.csv',index=False)
@@ -60,3 +60,28 @@ model = Sequential([
 
 model.compile(loss='mean_squared_error' , optimazer='adam' , metrics ='accuracy')
 model.fit(x_train , y_train ,epochs =14 , batch_size=16)
+
+
+
+new_post="""
+طوری رفتار نکنید که همه خوششون بیاد !
+قرار نیست همه خوششون بیاد ، اصلا اگه همه خوششون اومد باید به خودتون شک کنید .
+خودتون‌ باشید .
+
+"""
+
+normalizenewtext = Normalizer()
+tokenizenewpost =WordTokenizer()
+nnp=normalizenewtext.normalize(new_post)
+token =tokenizenewpost.tokenize(nnp)
+
+    
+cleantokennewpost=[t for t in token if tk.isalnum()]
+cleannewpost = " ".join(cleantokennewpost)
+print(cleannewpost)
+    
+xxx=model.predict(vector.transform(cleannewpost))
+scaled_predict=scaler.inverse_transform(xxx.reshape([-1,1]))
+scaled_predict = int(scaled_predict[0][0])
+print(scaled_predict)
+
