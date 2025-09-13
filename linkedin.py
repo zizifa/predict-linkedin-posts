@@ -47,6 +47,16 @@ y = df['reaction']
 
 
 scaler =MinMaxScaler()
-y_scaled = scaler.fit_transform(y.reshape[-1 , 1])
+y_scaled = scaler.fit_transform(y.value.reshape[-1 , 1])
 
 x_train , x_test , y_train , y_test =train_test_split(x_vectorized ,y_scaled ,test_size =0.2)
+
+
+model = Sequential([
+    Dense(120 ,activation =relu),
+    Dense(64 ,activation =relu),
+    Dense(1)
+])
+
+model.compile(loss='mean_squared_error' , optimazer='adam' , metrics ='accuracy')
+model.fit(x_train , y_train ,epochs =14 , batch_size=16)
