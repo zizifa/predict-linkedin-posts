@@ -8,6 +8,7 @@ from keras.activations import relu
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 import json
+from sklearn.preprocessing import MinMaxScaler
 import sys
 
 data=[]
@@ -32,3 +33,20 @@ for p in post :
     
     
 
+#df =pd.DataFrame(data)
+#df.to_csv('linkedin.csv',index=False)
+
+df=pd.read_csv('linkedin.csv')
+#print(len(df))
+
+print(df.columes)
+x_raw=df['post']
+vector = TfidfVectorizer()
+x_vectorized =vector.fit_transform(x_raw)
+y = df['reaction']
+
+
+scaler =MinMaxScaler()
+y_scaled = scaler.fit_transform(y.reshape[-1 , 1])
+
+x_train , x_test , y_train , y_test =train_test_split(x_vectorized ,y_scaled ,test_size =0.2)
