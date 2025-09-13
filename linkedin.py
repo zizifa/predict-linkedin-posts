@@ -10,15 +10,15 @@ from sklearn.model_selection import train_test_split
 import json
 from sklearn.preprocessing import MinMaxScaler
 import sys
-""""
+"""
 data=[]
 with open('',encoding='utf-8') as f:
     post = json.load(f)
 
 for p in post :
     temporarypost = p['post']
-    normal = Normalizer()
-    tokenize =WordTokenizer()
+    normal = Normalizer() # handling persion
+    tokenize =WordTokenizer() # keep only alphanumeric characters
     
     
     normaliztext=normal.normalize(temporarypost)
@@ -26,12 +26,12 @@ for p in post :
     
     
     cleantoken=[tk for tk in token if tk.isalnum()]
-    cleanpost = " ".join(cleantoken)
+    cleanpost = " ".join(cleantoken) #Rejoins cleaned tokens into a string
     print(cleanpost)
     
-    data.append({'post': cleanpost , 'reaction' : p['reactions'], 'comments' : p['comments']})
+    data.append({'post': cleanpost , 'reaction' : p['reactions'], 'comments' : p['comments']}) #Appends processed data with original reactions and comments
     
-    """
+  """
 
 #df =pd.DataFrame(data)
 #df.to_csv('linkedin.csv',index=False)
@@ -41,24 +41,24 @@ df=pd.read_csv('linkedin.csv')
 
 print(df.columes)
 x_raw=df['post']
-vector = TfidfVectorizer()
+vector = TfidfVectorizer() #convert text to numerical features
 x_vectorized =vector.fit_transform(x_raw)
 y = df['reaction']
 
 
 scaler =MinMaxScaler()
-y_scaled = scaler.fit_transform(y.values.reshape[-1 , 1])
+y_scaled = scaler.fit_transform(y.values.reshape[-1 , 1]) #Scales target variable to range [0,1]
 
 x_train , x_test , y_train , y_test =train_test_split(x_vectorized ,y_scaled ,test_size =0.2)
 
-
+#neural network with 3 dense layers (120, 64, and 1 neuron)
 model = Sequential([
     Dense(120 ,activation =relu),
     Dense(64 ,activation =relu),
     Dense(1)
 ])
 
-model.compile(loss='mean_squared_error' , optimazer='adam' , metrics ='accuracy')
+model.compile(loss='mean_squared_error' , optimizer='adam' , metrics ='accuracy')
 model.fit(x_train , y_train ,epochs =14 , batch_size=16)
 
 
@@ -76,7 +76,7 @@ nnp=normalizenewtext.normalize(new_post)
 token =tokenizenewpost.tokenize(nnp)
 
     
-cleantokennewpost=[t for t in token if tk.isalnum()]
+cleantokennewpost=[t for t in token if t.isalnum()]
 cleannewpost = " ".join(cleantokennewpost)
 print(cleannewpost)
     
